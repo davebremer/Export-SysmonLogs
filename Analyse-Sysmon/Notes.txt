@@ -1,0 +1,16 @@
+DONE Event 1: Process creation -- any new process that is created on the system is listed under this event ID. 
+DONE Event 2: File creation time changes. 
+DONE Event 3: Network connections -- disabled by default. To enable it, run the install command with the parameter?-n. 
+Event 4: Sysmon service state changes. 
+DONE Event 5: Process terminated. 
+DONE Event 6: Driver loaded. 
+Event 7: Image loaded. This is disabled by default. To enable it, run the install command with the parameter?-l. 
+Event 8: Create Remote Thread -- logs when a process creates a thread in another process.j 
+Event 9: Raw Access Read -- logs when a process uses reading operations from the drive using \\, and \. 
+Event 10: Process Access -- Logs when a process opens another process. 
+Event 11: File Create. 
+Event 12: Registry Event (Object Create and Delete) -- Logs when processes create or delete Registry objects. 
+Event 13: Registry Event (Value Set) -- Logs when processes set values in the Registry. 
+Event 14: Registry Event (Key and Value rename) -- Logs when Registry keys or values are renamed. 
+Event 15: File Create Stream Hash -- Logs when a file stream is created. 
+Event 255: Error.

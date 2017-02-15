@@ -1,4 +1,4 @@
-﻿function ConvertFrom-SysmonProcessTerminatedEvent {
+﻿function ConvertFrom-SysmonProcessTerminate {
 <#
 .Synopsis
 ConvertFrom a sysmon process terminated event, returning an object with data
@@ -6,10 +6,16 @@ ConvertFrom a sysmon process terminated event, returning an object with data
 .DESCRIPTION
 This commandlet takes a sysmon event and returns an object with the data from the event. Useful for further analysis. 
 
+From Sysinternals Doc:
+The process terminate event reports when a process terminates. It provides the UtcTime, ProcessGuid and ProcessId of the process.
+
 
 .EXAMPLE
 $SysmonEvent = Get-WinEvent -FilterHashtable @{logname="Microsoft-Windows-Sysmon/Operational";Id=1;} | select -first 1
-ConvertFrom-SysmonProcessTerminatedEvent $SysmonEvent
+ConvertFrom-SysmonProcessTerminate $SysmonEvent
+
+.LINK
+https://technet.microsoft.com/en-us/sysinternals/sysmon
 
 .NOTES
  Author: Dave Bremer
@@ -51,7 +57,7 @@ ConvertFrom-SysmonProcessTerminatedEvent $SysmonEvent
 END {}
 
 }
-Set-Alias -Name ConvertFrom-SysmonType5 -Value ConvertFrom-SysmonProcessTerminatedEvent -Description “ConvertFrom Sysmon Event type 5 - Process Terminate”
+Set-Alias -Name ConvertFrom-SysmonType5 -Value ConvertFrom-SysmonProcessTerminate -Description “ConvertFrom Sysmon Event type 5 - Process Terminate”
 
 #$SysmonEvent = Get-WinEvent -FilterHashtable @{logname="Microsoft-Windows-Sysmon/Operational";Id=5;} | select -first 1
-#ConvertFrom-SysmonProcessTerminatedEvent $SysmonEvent -Verbose
+#ConvertFrom-SysmonProcessTerminate $SysmonEvent -Verbose

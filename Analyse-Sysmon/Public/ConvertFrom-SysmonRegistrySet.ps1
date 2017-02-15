@@ -1,15 +1,21 @@
-﻿function ConvertFrom-SysmonRegistryAddDelEvent{
+﻿function ConvertFrom-SysmonRegistrySet {
 <#
 .Synopsis
-ConvertFrom a sysmon Registry Object Create Delete event, returning an object with data
+ConvertFrom a sysmon process create event, returning an object with data
 
 .DESCRIPTION
 This commandlet takes a sysmon event and returns an object with the data from the event. Useful for further analysis. 
 
+From Sysinternals:
+This Registry event type identifies Registry value modifications. The event records the value written for Registry values of type DWORD and QWORD.
+
 
 .EXAMPLE
-$SysmonEvent = Get-WinEvent -FilterHashtable @{logname="Microsoft-Windows-Sysmon/Operational";Id=12;} | select -first 1
-ConvertFrom-SysmonRegistryAddDelEvent$SysmonEvent
+$SysmonEvent = Get-WinEvent -FilterHashtable @{logname="Microsoft-Windows-Sysmon/Operational";Id=13;} | select -first 1
+ConvertFrom-SysmonRegistrySet $SysmonEvent
+
+.LINK
+https://technet.microsoft.com/en-us/sysinternals/sysmon
 
 .NOTES
  Author: Dave Bremer
@@ -34,8 +40,8 @@ ConvertFrom-SysmonRegistryAddDelEvent$SysmonEvent
     Foreach ($event in $events) { 
         $eventXML = [xml]$Event.ToXml()
         Write-Verbose ("Event type {0}" -f $Event.Id)
-        if ($Event.Id -ne 12) {
-            Throw ("Event is type {0} - expecting type 12 Process Create event" -f $Event.Id)
+        if ($Event.Id -ne 13) {
+            Throw ("Event is type {0} - expecting type 13 Process Create event" -f $Event.Id)
         }
         # Create Object
     
@@ -46,8 +52,8 @@ ConvertFrom-SysmonRegistryAddDelEvent$SysmonEvent
             Image = $eventXML.Event.EventData.Data[3].'#text'
             EventType = $eventXML.Event.EventData.Data[4].'#text'
             TargetObject = $eventXML.Event.EventData.Data[5].'#text'
-
-        
+            Details = $eventXML.Event.EventData.Data[6].'#text'
+           
         }
     }
 }
@@ -55,7 +61,7 @@ ConvertFrom-SysmonRegistryAddDelEvent$SysmonEvent
 END {}
 
 }
-Set-Alias -Name ConvertFrom-SysmonType12 -Value ConvertFrom-SysmonRegistryAddDelEvent -Description “ConvertFrom Sysmon Event type 1 - Process Create”
+Set-Alias -Name ConvertFrom-SysmonType13 -Value ConvertFrom-SysmonRegistrySet -Description “ConvertFrom Sysmon Event type 1 - Process Create”
 
-#$SysmonEvent = Get-WinEvent -FilterHashtable @{logname="Microsoft-Windows-Sysmon/Operational";Id=12;} | select -first 1
-#ConvertFrom-SysmonRegistryAddDelEvent $SysmonEvent -Verbose
+#$SysmonEvent = Get-WinEvent -FilterHashtable @{logname="Microsoft-Windows-Sysmon/Operational";Id=13;} | select -first 1
+#ConvertFrom-SysmonRegistrySet $SysmonEvent -Verbose

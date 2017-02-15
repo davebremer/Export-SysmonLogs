@@ -1,4 +1,4 @@
-﻿function ConvertFrom-SysmonNetworkEvent {
+﻿function ConvertFrom-SysmonNetworkConnect {
 <#
 .Synopsis
 ConvertFrom a sysmon network event, returning an object with data
@@ -6,10 +6,16 @@ ConvertFrom a sysmon network event, returning an object with data
 .DESCRIPTION
 This commandlet takes a sysmon event and returns an object with the data from the event. Useful for further analysis. 
 
+From Sysinternals Documentation:
+The network connection event logs TCP/UDP connections on the machine. It is disabled by default. Each connection is linked to a process through the ProcessId and ProcessGUID fields. The event also contains the source and destination host names IP addresses, port numbers and IPv6 status.
+
 
 .EXAMPLE
 $SysmonNetEvent = Get-WinEvent -FilterHashtable @{logname="Microsoft-Windows-Sysmon/Operational";Id=3;} | select -first 1
-ConvertFrom-SysmonNetworkEvent $SysmonNetEvent
+ConvertFrom-SysmonNetworkConnect $SysmonNetEvent
+
+.LINK
+https://technet.microsoft.com/en-us/sysinternals/sysmon
 
 .NOTES
  Author: Dave Bremer
@@ -66,7 +72,7 @@ ConvertFrom-SysmonNetworkEvent $SysmonNetEvent
 END {}
 
 }
-Set-Alias -Name ConvertFrom-SysmonType3 -Value ConvertFrom-SysmonNetworkEvent -Description “ConvertFrom Sysmon Event type 3 File Create Time Change”
+Set-Alias -Name ConvertFrom-SysmonType3 -Value ConvertFrom-SysmonNetworkConnect -Description “ConvertFrom Sysmon Event type 3 File Create Time Change”
 
 #$SysmonEvent = Get-WinEvent -FilterHashtable @{logname="Microsoft-Windows-Sysmon/Operational";Id=3;} | select -first 1
-#ConvertFrom-SysmonNetworkEvent $SysmonNetEvent -Verbose
+#ConvertFrom-SysmonNetworkConnect $SysmonNetEvent -Verbose

@@ -1,4 +1,4 @@
-﻿function ConvertFrom-SysmonFileStreamCreateEvent {
+﻿function ConvertFrom-SysmonFileCreateStreamHash {
 <#
 .Synopsis
 ConvertFrom a sysmon file create event, returning an object with data
@@ -9,7 +9,10 @@ This commandlet takes a sysmon event and returns an object with the data from th
 
 .EXAMPLE
 $SysmonEvent = Get-WinEvent -FilterHashtable @{logname="Microsoft-Windows-Sysmon/Operational";Id=15;} | select -first 1
-ConvertFrom-SysmonFileStreamCreateEvent $SysmonEvent
+ConvertFrom-SysmonFileCreateStreamHash $SysmonEvent
+
+.LINK
+https://technet.microsoft.com/en-us/sysinternals/sysmon
 
 .NOTES
  Author: Dave Bremer
@@ -54,7 +57,7 @@ ConvertFrom-SysmonFileStreamCreateEvent $SysmonEvent
 END {}
 
 }
-Set-Alias -Name ConvertFrom-SysmonType15 -Value ConvertFrom-SysmonFileStreamCreateEvent -Description “ConvertFrom Sysmon Event type 1 - Process Create”
+Set-Alias -Name ConvertFrom-SysmonType15 -Value ConvertFrom-SysmonFileCreateStreamHash -Description “ConvertFrom Sysmon Event type 1 - Process Create”
 
 #$SysmonEvent = Get-WinEvent -FilterHashtable @{logname="Microsoft-Windows-Sysmon/Operational";Id=15;} | select -first 1
-#ConvertFrom-SysmonFileStreamCreateEvent $SysmonEvent -Verbose
+#ConvertFrom-SysmonFileCreateStreamHash $SysmonEvent -Verbose

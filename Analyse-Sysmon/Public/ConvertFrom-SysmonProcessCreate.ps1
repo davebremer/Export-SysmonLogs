@@ -1,4 +1,4 @@
-﻿function ConvertFrom-SysmonProcessCreateEvent {
+﻿function ConvertFrom-SysmonProcessCreate {
 <#
 .Synopsis
 ConvertFrom a sysmon process create event, returning an object with data
@@ -6,10 +6,16 @@ ConvertFrom a sysmon process create event, returning an object with data
 .DESCRIPTION
 This commandlet takes a sysmon event and returns an object with the data from the event. Useful for further analysis. 
 
+From Sysinternals doc:
+The process creation event provides extended information about a newly created process. The full command line provides context on the process execution. The ProcessGUID field is a unique value for this process across a domain to make event correlation easier. The hash is a full hash of the file with the algorithms in the HashType field.
+
 
 .EXAMPLE
 $SysmonEvent = Get-WinEvent -FilterHashtable @{logname="Microsoft-Windows-Sysmon/Operational";Id=1;} | select -first 1
-ConvertFrom-SysmonProcessCreateEvent $SysmonEvent
+ConvertFrom-SysmonProcessCreate $SysmonEvent
+
+.LINK
+https://technet.microsoft.com/en-us/sysinternals/sysmon
 
 .NOTES
  Author: Dave Bremer
@@ -63,7 +69,7 @@ ConvertFrom-SysmonProcessCreateEvent $SysmonEvent
 END {}
 
 }
-Set-Alias -Name ConvertFrom-SysmonType1 -Value ConvertFrom-SysmonProcessCreateEvent -Description “ConvertFrom Sysmon Event type 1 - Process Create”
+Set-Alias -Name ConvertFrom-SysmonType1 -Value ConvertFrom-SysmonProcessCreate -Description “ConvertFrom Sysmon Event type 1 - Process Create”
 
 #$SysmonEvent = Get-WinEvent -FilterHashtable @{logname="Microsoft-Windows-Sysmon/Operational";Id=1;} | select -first 1
-#ConvertFrom-SysmonProcessCreateEvent $SysmonEvent -Verbose
+#ConvertFrom-SysmonProcessCreate $SysmonEvent -Verbose

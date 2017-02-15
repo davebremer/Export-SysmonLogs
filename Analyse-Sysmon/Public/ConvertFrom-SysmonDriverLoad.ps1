@@ -1,4 +1,4 @@
-﻿function ConvertFrom-SysmonDriverLoadedEvent {
+﻿function ConvertFrom-SysmonDriverLoad {
 <#
 .Synopsis
 ConvertFrom a sysmon driver loaded event, returning an object with data
@@ -6,10 +6,16 @@ ConvertFrom a sysmon driver loaded event, returning an object with data
 .DESCRIPTION
 This commandlet takes a sysmon event and returns an object with the data from the event. Useful for further analysis. 
 
+From Sysinternals Docs:
+The driver loaded events provides information about a driver being loaded on the system. The configured hashes are provided as well as signature information. The signature is created asynchronously for performance reasons and indicates if the file was removed after loading.
+
 
 .EXAMPLE
 $SysmonEvent = Get-WinEvent -FilterHashtable @{logname="Microsoft-Windows-Sysmon/Operational";Id=6;} | select -first 1
-ConvertFrom-SysmonDriverLoadedEvent $SysmonEvent
+ConvertFrom-SysmonDriverLoad $SysmonEvent
+
+.LINK
+https://technet.microsoft.com/en-us/sysinternals/sysmon
 
 .NOTES
  Author: Dave Bremer
@@ -55,7 +61,7 @@ ConvertFrom-SysmonDriverLoadedEvent $SysmonEvent
 END {}
 
 }
-Set-Alias -Name ConvertFrom-SysmonType6 -Value ConvertFrom-SysmonDriverLoadedEvent -Description “ConvertFrom Sysmon Event type 6 - Driver Loaded”
+Set-Alias -Name ConvertFrom-SysmonType6 -Value ConvertFrom-SysmonDriverLoad -Description “ConvertFrom Sysmon Event type 6 - Driver Loaded”
 
 #$SysmonEvent = Get-WinEvent -FilterHashtable @{logname="Microsoft-Windows-Sysmon/Operational";Id=6;} | select -first 1
-#ConvertFrom-SysmonDriverLoadedEvent $SysmonEvent -Verbose
+#ConvertFrom-SysmonDriverLoad $SysmonEvent -Verbose

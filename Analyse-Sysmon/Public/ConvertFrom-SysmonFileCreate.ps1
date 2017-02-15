@@ -1,4 +1,4 @@
-﻿function ConvertFrom-SysmonFileCreateEvent {
+﻿function ConvertFrom-SysmonFileCreate {
 <#
 .Synopsis
 ConvertFrom a sysmon file create event, returning an object with data
@@ -6,10 +6,16 @@ ConvertFrom a sysmon file create event, returning an object with data
 .DESCRIPTION
 This commandlet takes a sysmon event and returns an object with the data from the event. Useful for further analysis. 
 
+From Sysinternals:
+File create operations are logged when a file is created or overwritten. This event is useful for monitoring autostart locations, like the Startup folder, as well as temporary and download directories, which are common places malware drops during initial infection.
+
 
 .EXAMPLE
 $SysmonEvent = Get-WinEvent -FilterHashtable @{logname="Microsoft-Windows-Sysmon/Operational";Id=11;} | select -first 1
-ConvertFrom-SysmonFileCreateEvent $SysmonEvent
+ConvertFrom-SysmonFileCreate $SysmonEvent
+
+.LINK
+https://technet.microsoft.com/en-us/sysinternals/sysmon
 
 .NOTES
  Author: Dave Bremer
@@ -54,7 +60,7 @@ ConvertFrom-SysmonFileCreateEvent $SysmonEvent
 END {}
 
 }
-Set-Alias -Name ConvertFrom-SysmonType11 -Value ConvertFrom-SysmonFileCreateEvent -Description “ConvertFrom Sysmon Event type 1 - Process Create”
+Set-Alias -Name ConvertFrom-SysmonType11 -Value ConvertFrom-SysmonFileCreate -Description “ConvertFrom Sysmon Event type 1 - Process Create”
 
 #$SysmonEvent = Get-WinEvent -FilterHashtable @{logname="Microsoft-Windows-Sysmon/Operational";Id=11;} | select -first 1
-#ConvertFrom-SysmonFileCreateEvent $SysmonEvent -Verbose
+#ConvertFrom-SysmonFileCreate $SysmonEvent -Verbose

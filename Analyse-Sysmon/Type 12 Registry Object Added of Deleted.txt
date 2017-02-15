@@ -1,0 +1,7 @@
+Registry object added or deleted:
+UtcTime: 2017-02-14 22:08:46.123
+ProcessGuid: {48A1019E-896B-58A2-0000-0010E3BB0100}
+ProcessId: 936
+Image: C:\Windows\System32\svchost.exe
+EventType: CreateKey
+TargetObject: \REGISTRY\MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Publishers\{945a8954-c147-4acd-923f-40c45405a658}

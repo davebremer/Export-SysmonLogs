@@ -5,7 +5,7 @@ ConvertFrom a sysmon process terminated event, returning an object with data
 
 .DESCRIPTION
 This commandlet takes a sysmon event and returns an object with the data from the event. Useful for further analysis. 
-Only takes a single event for each call
+
 
 .EXAMPLE
 $SysmonEvent = Get-WinEvent -FilterHashtable @{logname="Microsoft-Windows-Sysmon/Operational";Id=1;} | select -first 1

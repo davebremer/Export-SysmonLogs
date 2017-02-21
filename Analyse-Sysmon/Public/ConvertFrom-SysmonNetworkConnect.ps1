@@ -48,22 +48,25 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
     
 
         New-Object -Type PSObject -Property @{
-            UTCTime = $eventXML.Event.EventData.Data[0].'#text'
-            ProcessId = $eventXML.Event.EventData.Data[2].'#text'
-            Image = $eventXML.Event.EventData.Data[3].'#text'
-            User = $eventXML.Event.EventData.Data[4].'#text'
-            Protocol = $eventXML.Event.EventData.Data[5].'#text'
-            Initiated = $eventXML.Event.EventData.Data[6].'#text'
-            SourceIsIpv6=$eventXML.Event.EventData.Data[7].'#text'
-            SourceIP = $eventXML.Event.EventData.Data[8].'#text'
-            SourceHostname = $eventXML.Event.EventData.Data[9].'#text'
-            SourcePort = $eventXML.Event.EventData.Data[10].'#text'
-            SourcePortName =  $eventXML.Event.EventData.Data[11].'#text'
-            DestinationIsIpv6 = $eventXML.Event.EventData.Data[12].'#text'
-            DestinationIP = $eventXML.Event.EventData.Data[13].'#text'
-            DestinationHostname = $eventXML.Event.EventData.Data[14].'#text'
-            DestinationPort = $eventXML.Event.EventData.Data[15].'#text'
-            DestinationPortName = $eventXML.Event.EventData.Data[16].'#text'
+        	Type = 3
+            Tag = "NetworkConnect"
+            Event = "Network connection detected"
+            UTCTime = $Event.Properties[0].value.tostring()
+            ProcessId = $Event.Properties[2].value.tostring()
+            Image = $Event.Properties[3].value.tostring()
+            User = $Event.Properties[4].value.tostring()
+            Protocol = $Event.Properties[5].value.tostring()
+            Initiated = $Event.Properties[6].value.tostring()
+            SourceIsIpv6=$Event.Properties[7].value.tostring()
+            SourceIP = $Event.Properties[8].value.tostring()
+            SourceHostname = $Event.Properties[9].value.tostring()
+            SourcePort = $Event.Properties[10].value.tostring()
+            SourcePortName =  $Event.Properties[11].value.tostring()
+            DestinationIsIpv6 = $Event.Properties[12].value.tostring()
+            DestinationIP = $Event.Properties[13].value.tostring()
+            DestinationHostname = $Event.Properties[14].value.tostring()
+            DestinationPort = $Event.Properties[15].value.tostring()
+            DestinationPortName = $Event.Properties[16].value.tostring()
  
         }
     }

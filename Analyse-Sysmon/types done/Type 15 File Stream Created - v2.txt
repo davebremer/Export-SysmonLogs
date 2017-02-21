@@ -1,0 +1,8 @@
+File stream created:
+UtcTime: 2017-02-17 19:03:38.497
+ProcessGuid: {48A1019E-4874-58A7-0000-00102382051B}
+ProcessId: 2292
+Image: C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+TargetFilename: C:\Downloads\SysinternalsSuite (1).zip
+CreationUtcTime: 2017-02-17 19:03:36.367
+Hash: MD5=84431E7F20D67B78DA02DA66C765D25E,IMPHASH=00000000000000000000000000000000

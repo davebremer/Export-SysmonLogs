@@ -47,11 +47,14 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
     
 
         New-Object -Type PSObject -Property @{
-            UTCTime = $eventXML.Event.EventData.Data[0].'#text'
-            ImageLoaded = $eventXML.Event.EventData.Data[1].'#text'
-            Hashes = $eventXML.Event.EventData.Data[2].'#text'
-            Signed = $eventXML.Event.EventData.Data[3].'#text'
-            Signature = $eventXML.Event.EventData.Data[4].'#text'
+        	Type = 6
+            Tag = "DriverLoad"
+            Event = "Driver Loaded"
+            UTCTime = $Event.Properties[0].value.tostring()
+            ImageLoaded = $Event.Properties[1].value.tostring()
+            Hashes = $Event.Properties[2].value.tostring()
+            Signed = $Event.Properties[3].value.tostring()
+            Signature = $Event.Properties[4].value.tostring()
         
  
         }

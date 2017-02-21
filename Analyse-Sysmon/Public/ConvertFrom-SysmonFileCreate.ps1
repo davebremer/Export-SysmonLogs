@@ -47,11 +47,14 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
     
 
         New-Object -Type PSObject -Property @{
-            UTCTime = $eventXML.Event.EventData.Data[0].'#text'
-            ProcessId = $eventXML.Event.EventData.Data[2].'#text'
-            Image = $eventXML.Event.EventData.Data[3].'#text'
-            TargetFilename = $eventXML.Event.EventData.Data[4].'#text'
-            CreationUtcTime = $eventXML.Event.EventData.Data[5].'#text'
+        	Type = 11
+            Tag = "FileCreate"
+            Event = "File created"
+            UTCTime = $Event.Properties[0].value.tostring()
+            ProcessId = $Event.Properties[2].value.tostring()
+            Image = $Event.Properties[3].value.tostring()
+            TargetFilename = $Event.Properties[4].value.tostring()
+            CreationUtcTime = $Event.Properties[5].value.tostring()
             
         }
     }

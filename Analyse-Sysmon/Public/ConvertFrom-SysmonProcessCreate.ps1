@@ -37,33 +37,39 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
    }
  
  PROCESS {
+
+
     Foreach ($event in $events) { 
-        $eventXML = [xml]$Event.ToXml()
         Write-Verbose ("Event type {0}" -f $Event.Id)
+
         if ($Event.Id -ne 1) {
             Throw ("Event is type {0} - expecting type 1 Process Create event" -f $Event.Id)
         }
-        # Create Object
-    
-
+        
+        
         New-Object -Type PSObject -Property @{
-            UTCTime = $eventXML.Event.EventData.Data[0].'#text'
-            ProcessId = $eventXML.Event.EventData.Data[2].'#text'
-            Image = $eventXML.Event.EventData.Data[3].'#text'
-            CommandLine = $eventXML.Event.EventData.Data[4].'#text'
-            CurrentDirectory = $eventXML.Event.EventData.Data[5].'#text'
-            User = $eventXML.Event.EventData.Data[6].'#text'
-            LogonGuid=$eventXML.Event.EventData.Data[7].'#text'
-            LogonId = $eventXML.Event.EventData.Data[8].'#text'
-            TerminalSessionId = $eventXML.Event.EventData.Data[9].'#text'
-            IntegrityLevel = $eventXML.Event.EventData.Data[10].'#text'
-            Hashes =  $eventXML.Event.EventData.Data[11].'#text'
-            ParentProcessId = $eventXML.Event.EventData.Data[13].'#text'
-            ParentImage = $eventXML.Event.EventData.Data[14].'#text'
-            ParentCommandLine = $eventXML.Event.EventData.Data[15].'#text'
+        	Type = 1
+            Tag = "ProcessCreate"
+            Event = "Process Create"
+            UTCTime = $Event.Properties[0].value.tostring()
+            ProcessId = $Event.Properties[2].value.tostring()
+            Image = $Event.Properties[3].value.tostring()
+            CommandLine = $Event.Properties[4].value.tostring()
+            CurrentDirectory = $Event.Properties[5].value.tostring()
+            User = $Event.Properties[6].value.tostring()
+            LogonGuid=$Event.Properties[7].value.tostring()
+            LogonId = $Event.Properties[8].value.tostring()
+            TerminalSessionId = $Event.Properties[9].value.tostring()
+            IntegrityLevel = $Event.Properties[10].value.tostring()
+            Hashes =  $Event.Properties[11].value.tostring()
+            ParentProcessId = $Event.Properties[13].value.tostring()
+            ParentImage = $Event.Properties[14].value.tostring()
+            ParentCommandLine = $Event.Properties[15].value.tostring()
         
         }
+       
     }
+  
 }
 
 END {}
@@ -73,3 +79,4 @@ Set-Alias -Name ConvertFrom-SysmonType1 -Value ConvertFrom-SysmonProcessCreate -
 
 #$SysmonEvent = Get-WinEvent -FilterHashtable @{logname="Microsoft-Windows-Sysmon/Operational";Id=1;} | select -first 1
 #ConvertFrom-SysmonProcessCreate $SysmonEvent -Verbose
+#$SysmonEvent = Get-WinEvent -FilterHashtable @{logname="Microsoft-Windows-Sysmon/Operational";Id=1;} | ConvertFrom-SysmonProcessCreate

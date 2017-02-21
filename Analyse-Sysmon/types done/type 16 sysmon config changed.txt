@@ -1,0 +1,4 @@
+Sysmon config state changed:
+UtcTime: 2017-02-17 19:07:45.469
+Configuration: .\sysmonconfig-export.xml
+ConfigurationFileHash: SHA1=1C7C387A56431230A2606EE3CBE81B85D8D70DCD

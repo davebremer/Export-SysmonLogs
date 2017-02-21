@@ -38,7 +38,7 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
  
  PROCESS {
      Foreach ($event in $events) { 
-        $eventXML = [xml]$Event.ToXml()
+        
         Write-Verbose ("Event type {0}" -f $Event.Id)
         if ($Event.Id -ne 2) {
             Throw ("Event is type {0} - expecting type 2 Process Create event" -f $Event.Id)
@@ -47,12 +47,15 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
     
 
         New-Object -Type PSObject -Property @{
-            UTCTime = $eventXML.Event.EventData.Data[0].'#text'
-            ProcessId = $eventXML.Event.EventData.Data[2].'#text'
-            Image = $eventXML.Event.EventData.Data[3].'#text'
-            TargetFilename = $eventXML.Event.EventData.Data[4].'#text'
-            CreationUtcTime = $eventXML.Event.EventData.Data[5].'#text'
-            PreviousCreationUtcTime = $eventXML.Event.EventData.Data[6].'#text'
+        	Type = 2
+            Tag = "FileCreateTime"
+            Event = "File creation time"
+            UTCTime = $Event.Properties[0].value.tostring()
+            ProcessId = $Event.Properties[2].value.tostring()
+            Image = $Event.Properties[3].value.tostring()
+            TargetFilename = $Event.Properties[4].value.tostring()
+            CreationUtcTime = $Event.Properties[5].value.tostring()
+            PreviousCreationUtcTime = $Event.Properties[6].value.tostring()
         
         }
     }

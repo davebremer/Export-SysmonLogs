@@ -47,13 +47,17 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
     
 
         New-Object -Type PSObject -Property @{
-            UTCTime = $eventXML.Event.EventData.Data[0].'#text'
-            ProcessId = $eventXML.Event.EventData.Data[2].'#text'
-            Image = $eventXML.Event.EventData.Data[3].'#text'
-            EventType = $eventXML.Event.EventData.Data[4].'#text'
-            TargetObject = $eventXML.Event.EventData.Data[5].'#text'
-            Details = $eventXML.Event.EventData.Data[6].'#text'
-           
+            Type = 13
+            Tag = "RegistryEvent"
+            Event = "Registry value set"
+            EventType = $Event.Properties[0].value.tostring()
+            UTCTime = $Event.Properties[1].value.tostring()
+            ProcessGuid = $Event.Properties[2].value.tostring()
+            ProcessId = $Event.Properties[3].value.tostring()
+            Image = $Event.Properties[4].value.tostring()
+            TargetObject = $Event.Properties[5].value.tostring()
+            Details = $Event.Properties[6].value.tostring()
+            
         }
     }
 }

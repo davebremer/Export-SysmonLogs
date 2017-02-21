@@ -38,7 +38,7 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
  
  PROCESS {
     Foreach ($event in $events) { 
-        $eventXML = [xml]$Event.ToXml()
+        
         Write-Verbose ("Event type {0}" -f $Event.Id)
         if ($Event.Id -ne 12) {
             Throw ("Event is type {0} - expecting type 12 Process Create event" -f $Event.Id)
@@ -47,11 +47,14 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
     
 
         New-Object -Type PSObject -Property @{
-            UTCTime = $eventXML.Event.EventData.Data[0].'#text'
-            ProcessId = $eventXML.Event.EventData.Data[2].'#text'
-            Image = $eventXML.Event.EventData.Data[3].'#text'
-            EventType = $eventXML.Event.EventData.Data[4].'#text'
-            TargetObject = $eventXML.Event.EventData.Data[5].'#text'
+            Type = 12
+            Tag = "RegistryEvent"
+            Event = "Registry object added or deleted"
+            UTCTime = $Event.Properties[0].value.tostring()
+            ProcessId = $Event.Properties[2].value.tostring()
+            Image = $Event.Properties[3].value.tostring()
+            EventType = $Event.Properties[4].value.tostring()
+            TargetObject = $Event.Properties[5].value.tostring()
 
         
         }

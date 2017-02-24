@@ -33,7 +33,7 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
             [System.Diagnostics.Eventing.Reader.EventLogRecord] $Events)
 
  BEGIN {
-    
+        
    }
  
  PROCESS {
@@ -57,7 +57,15 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
             CreationUtcTime = $Event.Properties[5].value.tostring()
             PreviousCreationUtcTime = $Event.Properties[6].value.tostring()
         
-        }
+        } | select Type,
+                    Tag,
+                    Event,
+                    UTCTime,
+                    ProcessId,
+                    Image,
+                    TargetFilename,
+                    CreationUtcTime,
+                    PreviousCreationUtcTime
     }
 }
 

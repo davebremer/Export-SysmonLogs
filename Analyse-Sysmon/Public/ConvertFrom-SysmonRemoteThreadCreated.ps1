@@ -61,7 +61,20 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
             StartAddress = $Event.Properties[8].value.tostring()
             StartModule = $Event.Properties[9].value.tostring()
             StartFunction= $Event.Properties[10].value.tostring()
-        }
+        } | select Type,
+                    Tag,
+                    Event,
+                    UTCTime,
+                    SourceProcessGuid,
+                    SourceProcessId,
+                    SourceImage,
+                    TargetProcessGuid,
+                    TargetProcessId,
+                    TargetImage,
+                    NewThreadId,
+                    StartAddress,
+                    StartModule,
+                    StartFunction
     }
 }
 

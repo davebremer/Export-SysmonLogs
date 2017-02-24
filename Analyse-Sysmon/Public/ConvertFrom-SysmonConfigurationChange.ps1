@@ -1,4 +1,4 @@
-﻿function ConvertFrom-SysmonConfigurationChanged {
+﻿function ConvertFrom-SysmonConfigurationChange {
 <#
 .Synopsis
 ConvertFrom a sysmon driver loaded event, returning an object with data
@@ -53,14 +53,19 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
             UTCTime = $Event.Properties[0].value.tostring()
             Configuration = $Event.Properties[1].value.tostring()
             ConfigurationFileHash = $Event.Properties[2].value.tostring()
-        }
+        } | select Type,
+                    Tag,
+                    Event,
+                    UTCTime,
+                    Configuration,
+                    ConfigurationFileHash
     }
 }
 
 END {}
 
 }
-Set-Alias -Name ConvertFrom-SysmonType16 -Value ConvertFrom-SysmonConfigurationChanged -Description “ConvertFrom Sysmon Event type 16 - Sysmon Service Configuration Changed”
+Set-Alias -Name ConvertFrom-SysmonType16 -Value ConvertFrom-SysmonConfigurationChange -Description “ConvertFrom Sysmon Event type 16 - Sysmon Service Configuration Changed”
 
 #$SysmonEvent = Get-WinEvent -FilterHashtable @{logname="Microsoft-Windows-Sysmon/Operational";Id=16;} | select -first 1
 #ConvertFrom-SysmonConfigurationChanged $SysmonEvent -Verbose

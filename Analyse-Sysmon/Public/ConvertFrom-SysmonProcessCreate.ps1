@@ -66,7 +66,23 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
             ParentImage = $Event.Properties[14].value.tostring()
             ParentCommandLine = $Event.Properties[15].value.tostring()
         
-        }
+        } | select Type,
+                    Tag,
+                    Event,
+                    UTCTime,
+                    ProcessId,
+                    Image,
+                    CommandLine,
+                    CurrentDirectory,
+                    User,
+                    LogonGuid,
+                    LogonId,
+                    TerminalSessionId,
+                    IntegrityLevel,
+                    Hashes,
+                    ParentProcessId,
+                    ParentImage,
+                    ParentCommandLine
        
     }
   

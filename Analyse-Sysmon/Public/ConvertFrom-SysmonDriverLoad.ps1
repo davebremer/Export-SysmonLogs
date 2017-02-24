@@ -57,7 +57,14 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
             Signature = $Event.Properties[4].value.tostring()
         
  
-        }
+        } | select Type,
+                    Tag,
+                    Event,
+                    UTCTime,
+                    ImageLoaded,
+                    Hashes,
+                    Signed,
+                    Signature
     }
 }
 

@@ -54,7 +54,12 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
                 ProcessId = $Event.Properties[2].value.tostring()
                 Image = $Event.Properties[3].value.tostring()
         
-            }
+            } | select Type,
+                        Tag,
+                        Event,
+                        UTCTime,
+                        ProcessId,
+                        Image
         }
     }
 END {}

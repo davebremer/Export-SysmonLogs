@@ -68,7 +68,25 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
             DestinationPort = $Event.Properties[15].value.tostring()
             DestinationPortName = $Event.Properties[16].value.tostring()
  
-        }
+        } | select Type,
+                    Tag,
+                    Event,
+                    UTCTime,
+                    ProcessId,
+                    Image,
+                    User,
+                    Protocol,
+                    Initiated,
+                    SourceIsIpv6,
+                    SourceIP,
+                    SourceHostname,
+                    SourcePort,
+                    SourcePortName,
+                    DestinationIsIpv6,
+                    DestinationIP,
+                    DestinationHostname,
+                    DestinationPort,
+                    DestinationPortName
     }
 }
 

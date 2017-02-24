@@ -53,7 +53,15 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
             TargetFilename = $Event.Properties[4].value.tostring()
             CreationUtcTime = $Event.Properties[5].value.tostring()
             Hash = $Event.Properties[6].value.tostring()
-        }
+        } | select Type,
+                    Tag,
+                    Event,
+                    UTCTime,
+                    ProcessId,
+                    Image,
+                    TargetFilename,
+                    CreationUtcTime,
+                    Hash
     }
 }
 

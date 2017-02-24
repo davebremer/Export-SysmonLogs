@@ -58,7 +58,16 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
             TargetObject = $Event.Properties[5].value.tostring()
             Details = $Event.Properties[6].value.tostring()
             
-        }
+        } | select Type,
+                    Tag,
+                    Event,
+                    EventType,
+                    UTCTime,
+                    ProcessGuid,
+                    ProcessId,
+                    Image,
+                    TargetObject,
+                    Details
     }
 }
 

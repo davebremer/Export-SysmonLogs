@@ -54,7 +54,13 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
             State = $Event.Properties[1].value.tostring()
             Version = $Event.Properties[2].value.tostring()
             SigSchemaVersion = $Event.Properties[3].value.tostring()
-        }
+        } | select Type,
+                Tag,
+                Event,
+                UTCTime,
+                State,
+                Version,
+                SigSchemaVersion
     }
 }
 

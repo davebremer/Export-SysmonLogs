@@ -1,7 +1,7 @@
 ﻿function ConvertFrom-SysmonServiceStateChanged {
 <#
 .Synopsis
-ConvertFrom a sysmon driver loaded event, returning an object with data
+ConvertFrom a sysmon Service State Changed event, returning an object with data
 
 .DESCRIPTION
 This commandlet takes a sysmon event and returns an object with the data from the event. Useful for further analysis. 
@@ -41,7 +41,7 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
         $eventXML = [xml]$Event.ToXml()
         Write-Verbose ("Event type {0}" -f $Event.Id)
         if ($Event.Id -ne 4) {
-            Throw ("Event is type {0} - expecting type 4 Driver Loaded event" -f $Event.Id)
+            Throw ("Event is type {0} - expecting type 4 Service State Changed event" -f $Event.Id)
         }
         # Create Object
     

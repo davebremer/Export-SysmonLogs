@@ -7,11 +7,11 @@ ConvertFrom a sysmon process terminated event, returning an object with data
 This commandlet takes a sysmon event and returns an object with the data from the event. Useful for further analysis. 
 
 From Sysinternals Doc:
-The process terminate event reports when a process terminates. It provides the UtcTime, ProcessGuid and ProcessId of the process.
-
+The process terminate event reports when a process terminates. It provides the UtcTime, ProcessGuid and ProcessId 
+of the process.
 
 .EXAMPLE
-$SysmonEvent = Get-WinEvent -FilterHashtable @{logname="Microsoft-Windows-Sysmon/Operational";Id=1;} | select -first 1
+$SysmonEvent = Get-WinEvent -FilterHashtable @{logname="Microsoft-Windows-Sysmon/Operational";Id=5;} | select -first 1
 ConvertFrom-SysmonProcessTerminate $SysmonEvent
 
 .LINK
@@ -19,7 +19,7 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
 
 .NOTES
  Author: Dave Bremer
- Hat-Tip: https://infracloud.wordpress.com/2016/05/12/read-sysmon-logs-from-powershell/
+ 
 #>
 
     [cmdletBinding(DefaultParametersetName="user")]
@@ -51,6 +51,7 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
                 Tag = "ProcessTerminate"
                 Event = "Process terminated"
                 UTCTime = $Event.Properties[0].value.tostring()
+                ProcessGUID = $Event.Properties[1].value.tostring()
                 ProcessId = $Event.Properties[2].value.tostring()
                 Image = $Event.Properties[3].value.tostring()
         
@@ -58,6 +59,7 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
                         Tag,
                         Event,
                         UTCTime,
+                        ProcessGUID,
                         ProcessId,
                         Image
         }

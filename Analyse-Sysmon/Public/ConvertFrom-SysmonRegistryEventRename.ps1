@@ -1,26 +1,26 @@
-﻿function ConvertFrom-SysmonRegistrySet {
+﻿function ConvertFrom-SysmonRegistryRename {
 <#
 .Synopsis
-ConvertFrom a sysmon Registry Set event, returning an object with data
+ConvertFrom a sysmon Registry Rename event, returning an object with data
 
 .DESCRIPTION
 This commandlet takes a sysmon event and returns an object with the data from the event. Useful for further analysis. 
 
 From Sysinternals:
-This Registry event type identifies Registry value modifications. The event records the value written for 
-Registry values of type DWORD and QWORD.
+Registry key and value rename operations map to this event type, 
+recording the new name of the key or value that was renamed.
 
 
 .EXAMPLE
-$SysmonEvent = Get-WinEvent -FilterHashtable @{logname="Microsoft-Windows-Sysmon/Operational";Id=13;} | select -first 1
-ConvertFrom-SysmonRegistrySet $SysmonEvent
+$SysmonEvent = Get-WinEvent -FilterHashtable @{logname="Microsoft-Windows-Sysmon/Operational";Id=14;} | select -first 1
+ConvertFrom-SysmonRegistryRename $SysmonEvent
 
 .LINK
 https://technet.microsoft.com/en-us/sysinternals/sysmon
 
 .NOTES
  Author: Dave Bremer
-
+ 
 #>
 
     [cmdletBinding(DefaultParametersetName="user")]
@@ -39,18 +39,18 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
  
  PROCESS {
     Foreach ($event in $events) { 
-
+ 
         Write-Verbose ("Event type {0}" -f $Event.Id)
-        if ($Event.Id -ne 13) {
-            Throw ("Event is type {0} - expecting type 13 Registry Set event" -f $Event.Id)
+        if ($Event.Id -ne 14) {
+            Throw ("Event is type {0} - expecting type 14 Registry Rename" -f $Event.Id)
         }
         # Create Object
     
 
         New-Object -Type PSObject -Property @{
-            Type = 13
+            Type = 14
             Tag = "RegistryEvent"
-            Event = "Registry value set"
+            Event = "Registry value (Key and Value) Rename"
             EventType = $Event.Properties[0].value.tostring()
             UTCTime = $Event.Properties[1].value.tostring()
             ProcessGuid = $Event.Properties[2].value.tostring()
@@ -58,7 +58,7 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
             Image = $Event.Properties[4].value.tostring()
             TargetObject = $Event.Properties[5].value.tostring()
             Details = $Event.Properties[6].value.tostring()
-           #NewName = $Event.Properties[7].value.tostring()
+            NewName = $Event.Properties[7].value.tostring()
             
         } | select Type,
                     Tag,
@@ -69,14 +69,15 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
                     ProcessId,
                     Image,
                     TargetObject,
-                    Details
+                    Details,
+                    NewName
     }
 }
 
 END {}
 
 }
-Set-Alias -Name ConvertFrom-SysmonType13 -Value ConvertFrom-SysmonRegistrySet -Description “ConvertFrom Sysmon Event type 13 - Registry Set”
+Set-Alias -Name ConvertFrom-SysmonType14 -Value ConvertFrom-SysmonRegistryRename -Description “ConvertFrom Sysmon Event type 14 - Registry Rename”
 
-#$SysmonEvent = Get-WinEvent -FilterHashtable @{logname="Microsoft-Windows-Sysmon/Operational";Id=13;} | select -first 1
-#ConvertFrom-SysmonRegistrySet $SysmonEvent -Verbose
+#$SysmonEvent = Get-WinEvent -FilterHashtable @{logname="Microsoft-Windows-Sysmon/Operational";Id=14;} | select -first 1
+#ConvertFrom-SysmonRegistryRename $SysmonEvent -Verbose

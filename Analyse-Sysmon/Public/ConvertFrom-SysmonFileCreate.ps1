@@ -7,7 +7,9 @@ ConvertFrom a sysmon file create event, returning an object with data
 This commandlet takes a sysmon event and returns an object with the data from the event. Useful for further analysis. 
 
 From Sysinternals:
-File create operations are logged when a file is created or overwritten. This event is useful for monitoring autostart locations, like the Startup folder, as well as temporary and download directories, which are common places malware drops during initial infection.
+File create operations are logged when a file is created or overwritten. This event is useful for monitoring autostart 
+locations, like the Startup folder, as well as temporary and download directories, which are common places malware drops 
+during initial infection.
 
 
 .EXAMPLE
@@ -38,7 +40,7 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
  
  PROCESS {
     Foreach ($event in $events) { 
-        $eventXML = [xml]$Event.ToXml()
+
         Write-Verbose ("Event type {0}" -f $Event.Id)
         if ($Event.Id -ne 11) {
             Throw ("Event is type {0} - expecting type 11 File Create event" -f $Event.Id)
@@ -51,6 +53,7 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
             Tag = "FileCreate"
             Event = "File created"
             UTCTime = $Event.Properties[0].value.tostring()
+            ProcessGUID = $Event.Properties[1].value.tostring()
             ProcessId = $Event.Properties[2].value.tostring()
             Image = $Event.Properties[3].value.tostring()
             TargetFilename = $Event.Properties[4].value.tostring()
@@ -60,6 +63,7 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
                     Tag,
                     Event,
                     UTCTime,
+                    ProcessGUID,
                     ProcessId,
                     Image,
                     TargetFilename,
@@ -70,7 +74,7 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
 END {}
 
 }
-Set-Alias -Name ConvertFrom-SysmonType11 -Value ConvertFrom-SysmonFileCreate -Description “ConvertFrom Sysmon Event type 1 - Process Create”
+Set-Alias -Name ConvertFrom-SysmonType11 -Value ConvertFrom-SysmonFileCreate -Description “ConvertFrom Sysmon Event type 11 - File Create”
 
 #$SysmonEvent = Get-WinEvent -FilterHashtable @{logname="Microsoft-Windows-Sysmon/Operational";Id=11;} | select -first 1
 #ConvertFrom-SysmonFileCreate $SysmonEvent -Verbose

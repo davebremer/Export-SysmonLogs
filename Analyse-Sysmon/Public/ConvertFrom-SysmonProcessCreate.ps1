@@ -1,13 +1,16 @@
 ﻿function ConvertFrom-SysmonProcessCreate {
 <#
 .Synopsis
-ConvertFrom a sysmon process create event, returning an object with data
+ConvertFrom a sysmon process create event
 
 .DESCRIPTION
 This commandlet takes a sysmon event and returns an object with the data from the event. Useful for further analysis. 
 
 From Sysinternals doc:
-The process creation event provides extended information about a newly created process. The full command line provides context on the process execution. The ProcessGUID field is a unique value for this process across a domain to make event correlation easier. The hash is a full hash of the file with the algorithms in the HashType field.
+The process creation event provides extended information about a newly created process. 
+The full command line provides context on the process execution. The ProcessGUID field is a unique value 
+for this process across a domain to make event correlation easier. The hash is a full hash of the file with the 
+algorithms in the HashType field.
 
 
 .EXAMPLE
@@ -19,7 +22,7 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
 
 .NOTES
  Author: Dave Bremer
- Hat-Tip: https://infracloud.wordpress.com/2016/05/12/read-sysmon-logs-from-powershell/
+ 
 #>
 
     [cmdletBinding(DefaultParametersetName="user")]
@@ -50,8 +53,9 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
         New-Object -Type PSObject -Property @{
         	Type = 1
             Tag = "ProcessCreate"
-            Event = "Process Create"
+            Event = "Process Creation"
             UTCTime = $Event.Properties[0].value.tostring()
+            ProcessGUID = $Event.Properties[1].value.tostring()
             ProcessId = $Event.Properties[2].value.tostring()
             Image = $Event.Properties[3].value.tostring()
             CommandLine = $Event.Properties[4].value.tostring()
@@ -70,6 +74,7 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
                     Tag,
                     Event,
                     UTCTime,
+                    ProcessGUID,
                     ProcessId,
                     Image,
                     CommandLine,

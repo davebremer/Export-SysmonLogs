@@ -7,7 +7,10 @@ ConvertFrom a sysmon File Create Time Change event, returning an object with dat
 This commandlet takes a sysmon event and returns an object with the data from the event. Useful for further analysis. 
 
 From Sysinternals Documentation:
-The change file creation time event is registered when a file creation time is explicitly modified by a process. This event helps tracking the real creation time of a file. Attackers may change the file creation time of a backdoor to make it look like it was installed with the operating system. Note that many processes legitimately change the creation time of a file; it does not necessarily indicate malicious activity.
+The change file creation time event is registered when a file creation time is explicitly modified by a process. 
+This event helps tracking the real creation time of a file. Attackers may change the file creation time of a backdoor 
+to make it look like it was installed with the operating system. Note that many processes legitimately change the 
+creation time of a file; it does not necessarily indicate malicious activity.
 
 
 .EXAMPLE
@@ -19,7 +22,7 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
 
 .NOTES
  Author: Dave Bremer
- Hat-Tip: https://infracloud.wordpress.com/2016/05/12/read-sysmon-logs-from-powershell/
+
 #>
 
     [cmdletBinding(DefaultParametersetName="user")]
@@ -41,7 +44,7 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
         
         Write-Verbose ("Event type {0}" -f $Event.Id)
         if ($Event.Id -ne 2) {
-            Throw ("Event is type {0} - expecting type 2 Process Create event" -f $Event.Id)
+            Throw ("Event is type {0} - expecting type 2 File Create Time changed" -f $Event.Id)
         }
         # Create Object
     
@@ -49,8 +52,9 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
         New-Object -Type PSObject -Property @{
         	Type = 2
             Tag = "FileCreateTime"
-            Event = "File creation time"
+            Event = "File creation time changed"
             UTCTime = $Event.Properties[0].value.tostring()
+            ProcessGUID = $Event.Properties[1].value.tostring()
             ProcessId = $Event.Properties[2].value.tostring()
             Image = $Event.Properties[3].value.tostring()
             TargetFilename = $Event.Properties[4].value.tostring()

@@ -17,39 +17,43 @@ function Export-SysmonLogs {
  Author: Dave Bremer
  TODO:
     * Add path variable to select output dir
+        - Error check
+        - offer to create?
     * Add option to select input path to a saved evtx file
     * Add default option that without any flags will dump everything from sysmonlogs to current directory - no need to do get-winevent
     * Add option to select date range (or everything from a date till now
     * Add option to select certain types. This could be done by manually calling the convertfrom-sysmon* functions - not sure if necessary
     * Add option to merge all csv's into an xlsx with seperate tab per sheet
         ** Optionally delete csv files after merging to csv
+    * Some kind of progress would be  good
 
     None of this gets into actual analysis - after the file handlings sorted, I need to start thinking about what kind of analysis can be done via
     powershell rather than booting the load onto excel.
 
 #>
 
-    [cmdletBinding(DefaultParametersetName="user")]
+    [cmdletBinding()]
     Param ([Parameter (
-            Mandatory=$True,
-            ValueFromPipelineByPropertyName = $TRUE,
-            ValueFromPipeLine = $TRUE,
-            Position = 0
+            Mandatory=$False,
+            ValueFromPipelineByPropertyName = $False,
+            ValueFromPipeLine = $False
                 )]
-            [ValidateNotNullOrEmpty()]
-            [System.Diagnostics.Eventing.Reader.EventLogRecord[]] $Events)
+            [String]$Path = (get-location)
+            )
 
  BEGIN {
-    $dir = "c:\temp\sysmon"
+    
+
     $Freq =  @{}
     
    }
  
  PROCESS {
  
-    Foreach ($event in $events) {
+    Get-WinEvent -FilterHashtable @{logname="Microsoft-Windows-Sysmon/Operational";} | ForEach-Object  {
+         $event = $_
          $command = ("ConvertFrom-SysmonType{0} `$Event" -f $event.ID)
-         $filename = ("{0}\SysmonType{1}.csv" -f $dir,$event.ID)
+         $filename = ("{0}\SysmonType{1}.csv" -f $Path,$event.ID)
          
          $freq.($event.id) +=1
          Invoke-Expression $command | export-csv $filename -NoTypeInformation -Append
@@ -60,7 +64,7 @@ function Export-SysmonLogs {
 
 END {
 $freq.GetEnumerator() |  select @{n="Type";e={$_.name}},@{n="Frequency";e={$_.value -as [int]}} | sort -Property Type
-$freq.GetEnumerator() |  select @{n="Type";e={$_.name}},@{n="Frequency";e={$_.value -as [int]}} | sort -Property Type | export-csv "$dir\frequency.csv" -NoTypeInformation
+$freq.GetEnumerator() |  select @{n="Type";e={$_.name}},@{n="Frequency";e={$_.value -as [int]}} | sort -Property Type | export-csv "$Path\frequency.csv" -NoTypeInformation
 }
 }
 

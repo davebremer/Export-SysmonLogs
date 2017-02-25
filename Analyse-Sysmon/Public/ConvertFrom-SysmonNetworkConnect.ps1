@@ -7,7 +7,9 @@ ConvertFrom a sysmon network event, returning an object with data
 This commandlet takes a sysmon event and returns an object with the data from the event. Useful for further analysis. 
 
 From Sysinternals Documentation:
-The network connection event logs TCP/UDP connections on the machine. It is disabled by default. Each connection is linked to a process through the ProcessId and ProcessGUID fields. The event also contains the source and destination host names IP addresses, port numbers and IPv6 status.
+The network connection event logs TCP/UDP connections on the machine. It is disabled by default. Each connection is 
+linked to a process through the ProcessId and ProcessGUID fields. The event also contains the source and destination 
+host names IP addresses, port numbers and IPv6 status.
 
 
 .EXAMPLE
@@ -19,7 +21,7 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
 
 .NOTES
  Author: Dave Bremer
- Hat-Tip: https://infracloud.wordpress.com/2016/05/12/read-sysmon-logs-from-powershell/
+ 
 #>
 
     [cmdletBinding(DefaultParametersetName="user")]
@@ -39,7 +41,6 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
  PROCESS {
      Foreach ($event in $events) { 
         
-        $eventXML = [xml]$Event.ToXml()
         Write-Verbose ("Event type {0}" -f $Event.Id)
         if ($Event.Id -ne 3) {
             Throw ("Event is type {0} - expecting type 3 Network event" -f $Event.Id)
@@ -52,6 +53,7 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
             Tag = "NetworkConnect"
             Event = "Network connection detected"
             UTCTime = $Event.Properties[0].value.tostring()
+            ProcessGUID = $Event.Properties[1].value.tostring()
             ProcessId = $Event.Properties[2].value.tostring()
             Image = $Event.Properties[3].value.tostring()
             User = $Event.Properties[4].value.tostring()
@@ -72,6 +74,7 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
                     Tag,
                     Event,
                     UTCTime,
+                    ProcessGUID,
                     ProcessId,
                     Image,
                     User,
@@ -93,7 +96,7 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
 END {}
 
 }
-Set-Alias -Name ConvertFrom-SysmonType3 -Value ConvertFrom-SysmonNetworkConnect -Description “ConvertFrom Sysmon Event type 3 File Create Time Change”
+Set-Alias -Name ConvertFrom-SysmonType3 -Value ConvertFrom-SysmonNetworkConnect -Description “ConvertFrom Sysmon Event type 3 Network Connection”
 
 #$SysmonEvent = Get-WinEvent -FilterHashtable @{logname="Microsoft-Windows-Sysmon/Operational";Id=3;} | select -first 1
 #ConvertFrom-SysmonNetworkConnect $SysmonNetEvent -Verbose

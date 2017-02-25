@@ -19,7 +19,7 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
 
 .NOTES
  Author: Dave Bremer
- Hat-Tip: https://infracloud.wordpress.com/2016/05/12/read-sysmon-logs-from-powershell/
+
 #>
 
     [cmdletBinding(DefaultParametersetName="user")]
@@ -38,7 +38,7 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
  
  PROCESS {
      Foreach ($event in $events) { 
-        $eventXML = [xml]$Event.ToXml()
+
         Write-Verbose ("Event type {0}" -f $Event.Id)
         if ($Event.Id -ne 6) {
             Throw ("Event is type {0} - expecting type 6 Driver Loaded event" -f $Event.Id)

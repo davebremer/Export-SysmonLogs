@@ -1,4 +1,4 @@
-﻿function ConvertFrom-SysmonDriverLoad {
+﻿function ConvertFrom-SysmonDriverLoaded {
 <#
 .Synopsis
 ConvertFrom a sysmon driver loaded event, returning an object with data
@@ -12,7 +12,7 @@ The driver loaded events provides information about a driver being loaded on the
 
 .EXAMPLE
 $SysmonEvent = Get-WinEvent -FilterHashtable @{logname="Microsoft-Windows-Sysmon/Operational";Id=6;} | select -first 1
-ConvertFrom-SysmonDriverLoad $SysmonEvent
+ConvertFrom-SysmonDriverLoaded $SysmonEvent
 
 .LINK
 https://technet.microsoft.com/en-us/sysinternals/sysmon
@@ -55,6 +55,7 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
             Hashes = $Event.Properties[2].value.tostring()
             Signed = $Event.Properties[3].value.tostring()
             Signature = $Event.Properties[4].value.tostring()
+            SignatureStatus = $Event.Properties[5].value.tostring()
         
  
         } | select Type,
@@ -64,14 +65,15 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
                     ImageLoaded,
                     Hashes,
                     Signed,
-                    Signature
+                    Signature,
+                    SignatureStatus
     }
 }
 
 END {}
 
 }
-Set-Alias -Name ConvertFrom-SysmonType6 -Value ConvertFrom-SysmonDriverLoad -Description “ConvertFrom Sysmon Event type 6 - Driver Loaded”
+Set-Alias -Name ConvertFrom-SysmonType6 -Value ConvertFrom-SysmonDriverLoaded -Description “ConvertFrom Sysmon Event type 6 - Driver Loaded”
 
 #$SysmonEvent = Get-WinEvent -FilterHashtable @{logname="Microsoft-Windows-Sysmon/Operational";Id=6;} | select -first 1
-#ConvertFrom-SysmonDriverLoad $SysmonEvent -Verbose
+#ConvertFrom-SysmonDriverLoaded $SysmonEvent -Verbose

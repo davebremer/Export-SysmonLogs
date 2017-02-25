@@ -1,25 +1,25 @@
 ﻿function ConvertFrom-SysmonRegistryRename {
 <#
 .Synopsis
-ConvertFrom a sysmon Registry Rename event, returning an object with data
+    ConvertFrom a sysmon Registry Rename event, returning an object with data
 
 .DESCRIPTION
-This commandlet takes a sysmon event and returns an object with the data from the event. Useful for further analysis. 
+    This commandlet takes a sysmon event and returns an object with the data from the event. Useful for further analysis. 
 
-From Sysinternals:
-Registry key and value rename operations map to this event type, 
-recording the new name of the key or value that was renamed.
+    From Sysinternals:
+        Registry key and value rename operations map to this event type, 
+        recording the new name of the key or value that was renamed.
 
 
 .EXAMPLE
-$SysmonEvent = Get-WinEvent -FilterHashtable @{logname="Microsoft-Windows-Sysmon/Operational";Id=14;} | select -first 1
-ConvertFrom-SysmonRegistryRename $SysmonEvent
+    $SysmonEvent = Get-WinEvent -FilterHashtable @{logname="Microsoft-Windows-Sysmon/Operational";Id=14;} | select -first 1
+    ConvertFrom-SysmonRegistryRename $SysmonEvent
 
 .LINK
-https://technet.microsoft.com/en-us/sysinternals/sysmon
+    https://technet.microsoft.com/en-us/sysinternals/sysmon
 
 .NOTES
- Author: Dave Bremer
+    Author: Dave Bremer
  
 #>
 
@@ -57,8 +57,7 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
             ProcessId = $Event.Properties[3].value.tostring()
             Image = $Event.Properties[4].value.tostring()
             TargetObject = $Event.Properties[5].value.tostring()
-            Details = $Event.Properties[6].value.tostring()
-            NewName = $Event.Properties[7].value.tostring()
+            NewName = $Event.Properties[6].value.tostring()
             
         } | select Type,
                     Tag,
@@ -69,7 +68,6 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
                     ProcessId,
                     Image,
                     TargetObject,
-                    Details,
                     NewName
     }
 }

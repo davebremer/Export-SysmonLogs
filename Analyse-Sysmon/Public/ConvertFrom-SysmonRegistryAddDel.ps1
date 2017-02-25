@@ -20,7 +20,7 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
 
 .NOTES
  Author: Dave Bremer
- Hat-Tip: https://infracloud.wordpress.com/2016/05/12/read-sysmon-logs-from-powershell/
+
 #>
 
     [cmdletBinding(DefaultParametersetName="user")]
@@ -51,26 +51,22 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
             Type = 12
             Tag = "RegistryEvent"
             Event = "Registry object added or deleted"
-            UTCTime = $Event.Properties[0].value.tostring()
-            ProcessGUID = $Event.Properties[1].value.tostring()
-            ProcessId = $Event.Properties[2].value.tostring()
-            Image = $Event.Properties[3].value.tostring()
-            EventType = $Event.Properties[4].value.tostring()
+            EventType = $Event.Properties[0].value.tostring()
+            UTCTime = $Event.Properties[1].value.tostring()
+            ProcessGUID = $Event.Properties[2].value.tostring()
+            ProcessId = $Event.Properties[3].value.tostring()
+            Image = $Event.Properties[4].value.tostring()
             TargetObject = $Event.Properties[5].value.tostring()
-            #Details = $Event.Properties[6].value.tostring()
-           # NewName = $Event.Properties[7].value.tostring()
-
         
         } | select Type,
                     Tag,
                     Event,
+                    EventType,
                     UTCTime,
                     ProcessGUID,
                     ProcessId,
                     Image,
-                    EventType,
-                    TargetObject,
-                    Details
+                    TargetObject
     }
 }
 

@@ -58,7 +58,7 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
             Image = $Event.Properties[4].value.tostring()
             TargetObject = $Event.Properties[5].value.tostring()
             Details = $Event.Properties[6].value.tostring()
-           #NewName = $Event.Properties[7].value.tostring()
+
             
         } | select Type,
                     Tag,

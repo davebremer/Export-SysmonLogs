@@ -49,7 +49,7 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
         New-Object -Type PSObject -Property @{
         	Type = 16
             Tag = ""
-            Event = "Sysmon configuration change"
+            Event = "Sysmon config state changed"
             UTCTime = $Event.Properties[0].value.tostring()
             Configuration = $Event.Properties[1].value.tostring()
             ConfigurationFileHash = $Event.Properties[2].value.tostring()

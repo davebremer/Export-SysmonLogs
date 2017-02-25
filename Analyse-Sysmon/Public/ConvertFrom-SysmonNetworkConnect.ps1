@@ -96,7 +96,7 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
 END {}
 
 }
-Set-Alias -Name ConvertFrom-SysmonType3 -Value ConvertFrom-SysmonNetworkConnect -Description “ConvertFrom Sysmon Event type 3 Network Connection”
+Set-Alias -Name ConvertFrom-SysmonType3 -Value ConvertFrom-SysmonNetworkConnect -Description “ConvertFrom Sysmon Event type 3 Network Connection Detected”
 
 #$SysmonEvent = Get-WinEvent -FilterHashtable @{logname="Microsoft-Windows-Sysmon/Operational";Id=3;} | select -first 1
 #ConvertFrom-SysmonNetworkConnect $SysmonNetEvent -Verbose

@@ -25,6 +25,9 @@ function Export-SysmonLogs {
 .PARAMETER EndTime
     The latest time for logs to be exported
 
+.PARAMETER MaxEvents
+Specifies the maximum number of events that are returned. Enter an integer. The default is to return all the events in the logs or files.
+
 .EXAMPLE
     Export-SysmonLogs
     All Sysmon events are dumped to a number of CSV files in the current directory
@@ -81,7 +84,12 @@ function Export-SysmonLogs {
             [string]$StartTime,
 
             [Parameter()]
-            [string]$EndTime
+            [string]$EndTime,
+
+            [Parameter()]
+            [ValidateRange(1, [int]::MaxValue)]
+            [int64]$MaxEvents
+
            )
 
 
@@ -112,9 +120,17 @@ function Export-SysmonLogs {
         $HashTable.Add("EndTime", $EndTime)
     }
 
-    write-verbose ("WinEvent Hashtable:`n{0}`n`n" -f $($HashTable| Out-String))
+    
+
+    write-verbose ("FilterHashtable:`n{0}`n`n" -f $($HashTable| Out-String))
 
     $getwineventParams = @{FilterHashtable = $HashTable}
+
+    if ($MaxEvents) {
+        $getwineventParams.Add("MaxEvents", $MaxEvents)
+    }
+
+    write-verbose ("WinEvent Hashtable:`n{0}`n`n" -f $($getwineventParams| Out-String))
 
     Get-WinEvent @getwineventParams | ForEach-Object  {
          $event = $_

@@ -43,7 +43,7 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
 
 
     Foreach ($event in $events) { 
-        Write-Verbose ("Event type {0}" -f $Event.Id)
+       # Write-Verbose ("Event type {0}" -f $Event.Id)
 
         if ($Event.Id -ne 1) {
             Throw ("Event is type {0} - expecting type 1 Process Create event" -f $Event.Id)

@@ -39,7 +39,7 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
  PROCESS {
      Foreach ($event in $events) { 
  
-        Write-Verbose ("Event type {0}" -f $Event.Id)
+       #  Write-Verbose ("Event type {0}" -f $Event.Id)
         if ($Event.Id -ne 17) {
             Throw ("Event is type {0} - expecting type 17 Named pipe created" -f $Event.Id)
         }

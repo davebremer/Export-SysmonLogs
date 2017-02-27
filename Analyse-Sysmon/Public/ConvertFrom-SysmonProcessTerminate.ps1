@@ -39,7 +39,7 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
  PROCESS {
      Foreach ($event in $events) { 
            
-            Write-Verbose ("Event type {0}" -f $Event.Id)
+           # Write-Verbose ("Event type {0}" -f $Event.Id)
             if ($Event.Id -ne 5) {
                 Throw ("Event is type {0} - expecting type 5 Process Terminate event" -f $Event.Id)
             }

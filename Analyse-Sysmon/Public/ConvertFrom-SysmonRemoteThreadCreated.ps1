@@ -43,7 +43,7 @@ https://technet.microsoft.com/en-us/sysinternals/sysmon
  PROCESS {
      Foreach ($event in $events) { 
 
-        Write-Verbose ("Event type {0}" -f $Event.Id)
+       # Write-Verbose ("Event type {0}" -f $Event.Id)
         if ($Event.Id -ne 8) {
             Throw ("Event is type {0} - expecting type 8 Driver Loaded event" -f $Event.Id)
         }

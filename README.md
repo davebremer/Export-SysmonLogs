@@ -2,7 +2,9 @@
 
 The intention is that this will be a powershell module with a number of functions to parse and analyse sysinternals symon event logs
 
-Early days. So far focusing on pulling logs out and getting them into csv, and (soon) xlsx.
+Early days. So far focusing on pulling logs out and getting them into csv and (soon) sqlite.
+
+Really though - the state that this things at, its really just a way to export sysmon logs to CSV
 
 ##Functions
 

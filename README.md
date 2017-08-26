@@ -1,6 +1,6 @@
-# Analyse-Sysmon
+# Export-SysmonLogs
 
-The intention is that this will be a powershell module with a number of functions to parse and analyse sysinternals symon event logs
+This module provides a way to export Sysmon Logs into a number of CSV file, one for each type
 
 Early days. So far focusing on pulling logs out and getting them into csv and (soon) sqlite.
 

@@ -1,9 +1,0 @@
-Registry value set:
-UtcTime: 2017-02-14 18:56:50.999
-ProcessGuid: {48A1019E-52E9-58A3-0000-0010DA9F4907}
-ProcessId: 11396
-Image: C:\Program Files (x86)\Internet Explorer\IEXPLORE.EXE
-EventType: SetValue
-TargetObject: \REGISTRY\USER\S-1-5-21-1004336348-1715567821-725345543-40626\Software\Microsoft\Internet Explorer\Toolbar
-\WebBrowser\ITBar7Layout
-Details: Binary Data

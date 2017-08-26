@@ -1,9 +1,0 @@
-File stream created:
-UtcTime: 2017-02-15 03:29:14.162
-ProcessGuid: {48A1019E-4F74-58A3-0000-001036FB2805}
-ProcessId: 1796
-Image: C:\Program Files\Microsoft Office 15\root\office15\OUTLOOK.EXE
-TargetFilename: C:\Users\dbremer\AppData\Local\Microsoft\Windows\INetCache\Content.Outlook\DM26DAK9\PGG WRIGHTSON LIMITE
-D ALL BUSINESS UNITS - mobility expenditure report ... (002).pdf
-CreationUtcTime: 2017-02-15 03:29:14.162
-Hash: MD5=78A3BFB478102E649C22B2779455485A,IMPHASH=00000000000000000000000000000000

@@ -1,7 +1,0 @@
-File created:
-UtcTime: 2017-02-14 19:46:13.253
-ProcessGuid: {48A1019E-5E84-58A3-0000-00101A266913}
-ProcessId: 11168
-Image: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
-TargetFilename: C:\Users\dbremer_a\AppData\Local\Temp\acpeqie4.2dt.ps1
-CreationUtcTime: 2017-02-14 19:46:13.253

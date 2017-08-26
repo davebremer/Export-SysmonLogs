@@ -28,6 +28,10 @@ function Export-SysmonLogs {
 .PARAMETER MaxEvents
 Specifies the maximum number of events that are returned. Enter an integer. The default is to return all the events in the logs or files.
 
+.PARAMETER CopyEVT
+ Creates a copy of the event file, either by exporting from "Microsoft-Windows-Sysmon/Operational" or copying from a local file specified with 
+ the -File parameter. If a local file is not specified then the exported logs will be names "sysmon.evtx"
+
 .EXAMPLE
     Export-SysmonLogs
     All Sysmon events are dumped to a number of CSV files in the current directory
@@ -38,7 +42,7 @@ Specifies the maximum number of events that are returned. Enter an integer. The 
 
 .EXAMPLE
     Export-SysmonLogs -path d:\sysmon -file c:\temp\sysmoncopy.evtx
-    A file c:\temp\sysmoncopy.evtx is read with csv files created in d:\sysmon
+    A file c:\temp\sysmoncopy.evtx is read with the output going to csv files created in d:\sysmon
 
 .EXAMPLE
     Export-SysmonLogs -ID 2,4,6,8
@@ -58,12 +62,7 @@ Specifies the maximum number of events that are returned. Enter an integer. The 
     DONE * Add option to select date range (or everything from a date till now
     DONE * Add option to select certain types. This could be done by manually calling the convertfrom-sysmon* functions - not sure if necessary
     * Extract computername - don't allow Path for this. Different logset
-    * Add option to merge all csv's into an xlsx with seperate tab per sheet
-        ** Optionally delete csv files after merging to csv
-    * Some kind of progress would be  good
-
-    None of this gets into actual analysis - after the file handlings sorted, I need to start thinking about what kind of analysis can be done via
-    powershell rather than booting the load onto excel.
+    * Some kind of progress would be good
 
 #>
 
@@ -88,8 +87,12 @@ Specifies the maximum number of events that are returned. Enter an integer. The 
 
             [Parameter()]
             [ValidateRange(1, [int]::MaxValue)]
-            [int64]$MaxEvents
+            [int64]$MaxEvents,
 
+            [Parameter()]
+            [switch]$CopyEVT
+
+            
            )
 
 
@@ -101,12 +104,24 @@ Specifies the maximum number of events that are returned. Enter an integer. The 
    }
  
  PROCESS {
+    
  
     if ($file) {
         $HashTable = @{path=$File}
     } else {
         $HashTable = @{logname="Microsoft-Windows-Sysmon/Operational"}
     }
+
+    # if we're grabbing a copy of the events then...
+    if ($CopyEVT) {
+        
+        if ($file) {
+            copy $File $Path #copy the file into where-ever the output is set. Could be issues if that's where it is #TO TEST
+    } else {
+         wevtutil.exe epl "Microsoft-Windows-Sysmon/Operational" $path\sysmon.evtx
+    }
+        
+        }
 
     if ($id) {
         $HashTable.Add("ID", $id)

@@ -1,5 +1,0 @@
-Sysmon service state changed:
-UtcTime: 2017-02-17 19:06:08.618
-State: Started
-Version: 6.00
-SchemaVersion: 3.30

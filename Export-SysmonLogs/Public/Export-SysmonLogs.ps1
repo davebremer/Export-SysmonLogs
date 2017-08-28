@@ -30,7 +30,16 @@ Specifies the maximum number of events that are returned. Enter an integer. The 
 
 .PARAMETER CopyEVT
  Creates a copy of the event file, either by exporting from "Microsoft-Windows-Sysmon/Operational" or copying from a local file specified with 
- the -File parameter. If a local file is not specified then the exported logs will be names "sysmon.evtx"
+ the -File parameter. If a local file is not specified then the exported logs will be names "sysmon.evtx".
+
+ This does NOT work for a remote computer at present #TODO
+
+
+ .PARAMETER ComputerName
+  Name of remote computer
+
+ .PARAMETER Laps
+ Indicates that a LAPS credential is needed. This requires that the Get-LapsCred function is available, from ADTools
 
 .EXAMPLE
     Export-SysmonLogs
@@ -72,6 +81,14 @@ Specifies the maximum number of events that are returned. Enter an integer. The 
             [ValidateScript({If(Test-Path $_ -PathType Container){$true}else{Throw "Invalid output path given: $_"} })]
             [String]$Path = (get-location),
             
+            [Parameter()]
+            [ValidateScript({If(Test-Connection $_ -quiet -count 1){$true}else{Throw "Cannot find or resolve `"$_`""} })]
+            [string]$Computername,
+
+            [Parameter()]
+            [ValidateScript({If(get-LapsCred $computername){$true}else{Throw "Cannot find a LAPS credential for $computername"} })]
+            [switch]$Laps,
+
             [validateset(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,255)]
             [int[]]$ID,
 
@@ -135,18 +152,27 @@ Specifies the maximum number of events that are returned. Enter an integer. The 
         $HashTable.Add("EndTime", $EndTime)
     }
 
-    
+      
 
     write-verbose ("FilterHashtable:`n{0}`n`n" -f $($HashTable| Out-String))
 
     $getwineventParams = @{FilterHashtable = $HashTable}
+ 
+   if ($ComputerName) {
+        $getwineventParams.Add("ComputerName", $ComputerName)
+    }
+
+    if ($Laps) {
+        $getwineventParams.Add("Credential", (get-lapscred $ComputerName))
+    }
+   
 
     if ($MaxEvents) {
         $getwineventParams.Add("MaxEvents", $MaxEvents)
     }
 
     write-verbose ("WinEvent Hashtable:`n{0}`n`n" -f $($getwineventParams| Out-String))
-
+  
     Get-WinEvent @getwineventParams | ForEach-Object  {
          $event = $_
          $command = ("ConvertFrom-SysmonType{0} `$Event" -f $event.ID)
@@ -170,6 +196,6 @@ END {
         select @{n="Type";e={$_.name}},@{n="Frequency";e={$_.value -as [int]}} | 
         sort -Property Type | 
         export-csv "$Path\frequency.csv" -NoTypeInformation
-}
+    }
 }
 

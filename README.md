@@ -1,7 +1,5 @@
 # Export-SysmonLogs
 
-## OK something is screwed here. I thought that I'd loaded a working system but obviously screwed up the main function. I'll get back to it as soon as I can. It's got to be something basic around accessing the remote computer
-
 This module provides a way to export Sysmon Logs into a number of CSV file, one for each type
 
 Early days. So far focusing on pulling logs out and getting them into csv and (soon) sqlite.

@@ -179,6 +179,7 @@ Specifies the maximum number of events that are returned. Enter an integer. The 
          $filename = ("{0}\SysmonType{1}.csv" -f $Path,$event.ID)
          
          $freq.($event.id) +=1
+         Write-Verbose ("Event {0}: {1}" -f $event.id,$event.TimeCreated )
          Invoke-Expression $command | export-csv $filename -NoTypeInformation -Append
     }
     

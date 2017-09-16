@@ -173,13 +173,13 @@ Specifies the maximum number of events that are returned. Enter an integer. The 
 
     write-verbose ("WinEvent Hashtable:`n{0}`n`n" -f $($getwineventParams| Out-String))
   
-    Get-WinEvent @getwineventParams | ForEach-Object  {
+    Get-WinEvent @getwineventParams -ErrorAction SilentlyContinue| ForEach-Object  {
          $event = $_
          $command = ("ConvertFrom-SysmonType{0} `$Event" -f $event.ID)
          $filename = ("{0}\SysmonType{1}.csv" -f $Path,$event.ID)
          
          $freq.($event.id) +=1
-         Write-Verbose ("Event {0}: {1}" -f $event.id,$event.TimeCreated )
+         Write-Verbose ("Event {0}: {1}" -f $event.id,$event.TimeCreated)
          Invoke-Expression $command | export-csv $filename -NoTypeInformation -Append
     }
     

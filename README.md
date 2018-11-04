@@ -1,4 +1,15 @@
 # Export-SysmonLogs
+===============================
+_**DEPRECATED**_
+
+_This module was a first crack at trying to get sysmon logs into some format thats easier to work with. Ther's a huge amount of hard coding which was a pain every time there was an upgrade and new data types were introduced.
+
+Theres another module called [export-sysmondb](https://github.com/davebremer/Export-SysmonDB) which dynamically figures out what fields belong to what event types, and loads them into a sqlite database.
+
+to be honest - im not sure doing this is useful. still its been a useful exercise for me.
+
+==============================
+
 
 This module provides a way to export Sysmon Logs into a number of CSV file, one for each type
 
